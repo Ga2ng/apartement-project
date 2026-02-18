@@ -65,60 +65,669 @@
         @apply antialiased;
         background-color: var(--color-bg);
         color: var(--color-text);
+        scroll-behavior: smooth;
     }
+
+    /* Smooth scroll for all */
+    html {
+        scroll-behavior: smooth;
+    }
+
+    /* Custom selection color */
+    ::selection {
+        background-color: var(--color-primary);
+        color: #ffffff;
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   Animations
+--------------------------------------------------------------------------- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes pulse-soft {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        max-height: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        max-height: 500px;
+        transform: translateY(0);
+    }
+}
+
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation utility classes */
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in-down {
+    animation: fadeInDown 0.5s ease-out forwards;
+}
+
+.animate-fade-in-left {
+    animation: fadeInLeft 0.6s ease-out forwards;
+}
+
+.animate-fade-in-right {
+    animation: fadeInRight 0.6s ease-out forwards;
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.5s ease-out forwards;
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Staggered animation delays */
+.delay-100 {
+    animation-delay: 0.1s;
+}
+
+.delay-200 {
+    animation-delay: 0.2s;
+}
+
+.delay-300 {
+    animation-delay: 0.3s;
+}
+
+.delay-400 {
+    animation-delay: 0.4s;
+}
+
+.delay-500 {
+    animation-delay: 0.5s;
+}
+
+.delay-600 {
+    animation-delay: 0.6s;
+}
+
+/* Scroll-triggered animation (initially hidden) */
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.scroll-animate.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* ---------------------------------------------------------------------------
    Components: reusable UI (pakai theme colors)
 --------------------------------------------------------------------------- */
 @layer components {
-    .btn-primary {
-        @apply px-6 py-3 rounded-lg font-medium text-white transition-all duration-300;
-        background-color: var(--color-primary);
+
+    /* ---- Navbar ---- */
+    .navbar {
+        @apply sticky top-0 z-50 border-b;
+        background-color: var(--color-bg);
+        border-color: var(--color-border);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        background-color: rgba(255, 255, 255, 0.85);
+        transition: all 0.3s ease;
     }
+
+    [data-theme="dark"] .navbar {
+        background-color: rgba(18, 18, 18, 0.85);
+    }
+
+    .navbar.scrolled {
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    /* ---- Buttons ---- */
+    .btn-primary {
+        @apply px-6 py-3 rounded-xl font-medium text-white transition-all duration-300 relative overflow-hidden;
+        background-color: var(--color-primary);
+        box-shadow: 0 4px 15px rgba(3, 149, 9, 0.25);
+    }
+
     .btn-primary:hover {
         background-color: var(--color-primary-light);
         transform: translateY(-2px);
-        box-shadow: 0 10px 20px rgba(3, 149, 9, 0.2);
+        box-shadow: 0 8px 25px rgba(3, 149, 9, 0.35);
+    }
+
+    .btn-primary:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 10px rgba(3, 149, 9, 0.2);
     }
 
     .btn-secondary {
-        @apply px-6 py-3 rounded-lg font-medium transition-all duration-300;
+        @apply px-6 py-3 rounded-xl font-medium transition-all duration-300;
         background-color: transparent;
         color: var(--color-text);
-        border: 1px solid var(--color-border);
+        border: 1.5px solid var(--color-border);
     }
+
     .btn-secondary:hover {
         border-color: var(--color-primary);
         color: var(--color-primary);
+        background-color: var(--color-primary-lighter);
+        transform: translateY(-1px);
     }
 
+    /* ---- Card ---- */
     .card {
         @apply rounded-2xl overflow-hidden transition-all duration-300;
         background-color: var(--color-surface);
         border: 1px solid var(--color-border);
-    }
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
     }
 
+    .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        border-color: var(--color-primary-light);
+    }
+
+    [data-theme="dark"] .card:hover {
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    /* ---- Badge ---- */
     .badge {
-        @apply px-3 py-1 rounded-full text-sm font-medium;
+        @apply px-3 py-1 rounded-full text-xs font-semibold tracking-wide uppercase;
         background-color: var(--color-primary-lighter);
         color: var(--color-primary);
     }
 
+    /* ---- Hero Gradient ---- */
     .hero-gradient {
-        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 50%, var(--color-primary) 100%);
+        background-size: 200% 200%;
+        animation: gradientShift 8s ease infinite;
+        position: relative;
     }
 
-    .search-box {
-        @apply rounded-2xl p-6 shadow-lg;
-        background-color: var(--color-bg);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    .hero-gradient::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        pointer-events: none;
     }
+
+    @keyframes gradientShift {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    /* ---- Hero Slideshow ---- */
+    .hero-slide {
+        position: absolute;
+        inset: 0;
+        background-size: cover;
+        background-position: center;
+        opacity: 0;
+        transition: opacity 1.2s ease-in-out, transform 6s ease-out;
+        transform: scale(1.05);
+    }
+
+    .hero-slide.active {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    /* Indicator dots */
+    .hero-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 9999px;
+        background-color: rgba(255, 255, 255, 0.4);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 0;
+    }
+
+    .hero-dot.active {
+        background-color: #ffffff;
+        width: 28px;
+    }
+
+    .hero-dot:hover {
+        background-color: rgba(255, 255, 255, 0.8);
+    }
+
+
+    .search-box {
+        @apply rounded-2xl p-8;
+        background-color: var(--color-bg);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+    }
+
+    .search-box:hover {
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+    }
+
     [data-theme="dark"] .search-box {
         background-color: var(--color-surface-elevated);
+        border: 1px solid var(--color-border);
     }
+
+    /* ---- Input styling ---- */
+    .form-input {
+        @apply w-full p-3.5 rounded-xl transition-all duration-300;
+        background-color: var(--color-bg);
+        border: 1.5px solid var(--color-border);
+        color: var(--color-text);
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px rgba(3, 149, 9, 0.15);
+    }
+
+    .form-input::placeholder {
+        color: var(--color-text-secondary);
+        opacity: 0.7;
+    }
+
+    /* ---- Feature Card ---- */
+    .feature-card {
+        @apply text-center p-8 rounded-2xl transition-all duration-300;
+        background-color: var(--color-bg);
+        border: 1px solid transparent;
+    }
+
+    .feature-card:hover {
+        background-color: var(--color-bg);
+        border-color: var(--color-primary-light);
+        box-shadow: 0 15px 40px rgba(3, 149, 9, 0.08);
+        transform: translateY(-4px);
+    }
+
+    [data-theme="dark"] .feature-card:hover {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .feature-icon {
+        @apply w-16 h-16 rounded-2xl mx-auto mb-5 flex items-center justify-center transition-all duration-300;
+        background-color: var(--color-primary-lighter);
+    }
+
+    .feature-card:hover .feature-icon {
+        transform: scale(1.1) rotate(-3deg);
+        box-shadow: 0 8px 20px rgba(3, 149, 9, 0.2);
+    }
+
+    /* ---- Stat Card ---- */
+    .stat-card {
+        @apply text-center p-6 rounded-2xl;
+        background-color: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+        transform: translateY(-3px);
+    }
+
+    /* ---- Testimonial Card ---- */
+    .testimonial-card {
+        @apply p-6 rounded-2xl transition-all duration-300;
+        background-color: var(--color-surface);
+        border: 1px solid var(--color-border);
+    }
+
+    .testimonial-card:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        transform: translateY(-3px);
+    }
+
+    [data-theme="dark"] .testimonial-card:hover {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ---- Property Image Overlay ---- */
+    .property-image {
+        @apply relative h-64 overflow-hidden;
+        background-color: var(--color-border);
+    }
+
+    .property-image::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 50%;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+    }
+
+    .card:hover .property-image::after {
+        opacity: 0.7;
+    }
+
+    /* ---- Wishlist Heart Button ---- */
+    .wishlist-btn {
+        @apply w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300;
+        background-color: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(4px);
+    }
+
+    .wishlist-btn:hover {
+        background-color: var(--color-error);
+        color: #fff;
+        transform: scale(1.15);
+    }
+
+    /* ---- Mobile Navigation ---- */
+    .mobile-menu {
+        @apply fixed inset-0 z-40;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .mobile-menu.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .mobile-menu-panel {
+        @apply fixed top-0 right-0 w-80 max-w-full h-full p-6;
+        background-color: var(--color-bg);
+        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.15);
+        transform: translateX(100%);
+        transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .mobile-menu.active .mobile-menu-panel {
+        transform: translateX(0);
+    }
+
+    /* ---- Hamburger icon ---- */
+    .hamburger {
+        @apply w-8 h-8 flex flex-col items-center justify-center gap-1.5 cursor-pointer;
+    }
+
+    .hamburger span {
+        @apply w-5 h-0.5 rounded-full transition-all duration-300;
+        background-color: var(--color-text);
+    }
+
+    .hamburger.active span:nth-child(1) {
+        transform: translateY(4px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+        transform: translateY(-4px) rotate(-45deg);
+    }
+
+    /* ---- Back to top button ---- */
+    .back-to-top {
+        @apply fixed bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center z-50 transition-all duration-300 text-white;
+        background-color: var(--color-primary);
+        box-shadow: 0 4px 15px rgba(3, 149, 9, 0.3);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(20px);
+    }
+
+    .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    .back-to-top:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(3, 149, 9, 0.4);
+    }
+
+    /* ---- Section Divider ---- */
+    .section-divider {
+        @apply w-20 h-1 mx-auto rounded-full;
+        background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light));
+    }
+
+    /* ---- Nav link active indicator ---- */
+    .nav-link {
+        @apply font-medium transition-all duration-300 relative py-1;
+        color: var(--color-text-secondary);
+    }
+
+    .nav-link::after {
+        content: '';
+        @apply absolute bottom-0 left-0 w-0 h-0.5 rounded-full transition-all duration-300;
+        background-color: var(--color-primary);
+    }
+
+    .nav-link:hover::after,
+    .nav-link.active::after {
+        width: 100%;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: var(--color-text);
+    }
+
+    /* ---- Room card enhanced ---- */
+    .room-card {
+        @apply rounded-2xl overflow-hidden flex flex-col transition-all duration-300;
+        background-color: var(--color-surface);
+        border: 1px solid var(--color-border);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+
+    .room-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        border-color: var(--color-primary-light);
+    }
+
+    [data-theme="dark"] .room-card:hover {
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+    }
+
+    .room-card-image {
+        @apply h-52 flex items-center justify-center relative overflow-hidden;
+        background: linear-gradient(135deg, var(--color-border), var(--color-surface));
+    }
+
+    .room-card-image::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 40%;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.15), transparent);
+        pointer-events: none;
+    }
+
+    /* ---- Tooltip ---- */
+    .tooltip {
+        @apply relative;
+    }
+
+    .tooltip::before {
+        content: attr(data-tooltip);
+        @apply absolute bottom-full left-1/2 mb-2 px-3 py-1.5 rounded-lg text-xs font-medium text-white whitespace-nowrap pointer-events-none;
+        background-color: var(--color-text);
+        transform: translateX(-50%) translateY(5px);
+        opacity: 0;
+        transition: all 0.2s ease;
+    }
+
+    .tooltip:hover::before {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   Utility Overrides
+--------------------------------------------------------------------------- */
+/* Better focus ring */
+*:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+}
+
+/* Smooth image loading */
+img {
+    transition: opacity 0.3s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-secondary);
 }
