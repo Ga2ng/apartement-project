@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ---------------------------------------------------------------------------
+   Theme: CSS variables (light + dark)
+   Best practice: satu sumber tema, dipakai Tailwind via theme.extend.colors
+--------------------------------------------------------------------------- */
+:root {
+    --color-primary: #039509;
+    --color-primary-light: #66bb6a;
+    --color-primary-lighter: #e8f5e9;
+    --color-bg: #ffffff;
+    --color-surface: #f8f9fa;
+    --color-surface-elevated: #f8f9fa;
+    --color-border: #e0e0e0;
+    --color-text: #212121;
+    --color-text-secondary: #666666;
+    --color-success: #039509;
+    --color-warning: #ffa726;
+    --color-error: #ef5350;
+    --color-info: #42a5f5;
+}
+
+[data-theme="dark"] {
+    --color-primary: #66bb6a;
+    --color-primary-light: #81c784;
+    --color-primary-lighter: #2e7d32;
+    --color-bg: #121212;
+    --color-surface: #1e1e1e;
+    --color-surface-elevated: #2c2c2c;
+    --color-border: #3a3a3a;
+    --color-text: #ffffff;
+    --color-text-secondary: #b0b0b0;
+    --color-success: #66bb6a;
+    --color-warning: #ffb74d;
+    --color-error: #ef5350;
+    --color-info: #64b5f6;
+}
+
+/* Prefer system dark when no explicit theme (optional) */
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --color-primary: #66bb6a;
+        --color-primary-light: #81c784;
+        --color-primary-lighter: #2e7d32;
+        --color-bg: #121212;
+        --color-surface: #1e1e1e;
+        --color-surface-elevated: #2c2c2c;
+        --color-border: #3a3a3a;
+        --color-text: #ffffff;
+        --color-text-secondary: #b0b0b0;
+        --color-success: #66bb6a;
+        --color-warning: #ffb74d;
+        --color-error: #ef5350;
+        --color-info: #64b5f6;
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   Base: body default
+--------------------------------------------------------------------------- */
+@layer base {
+    body {
+        @apply antialiased;
+        background-color: var(--color-bg);
+        color: var(--color-text);
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   Components: reusable UI (pakai theme colors)
+--------------------------------------------------------------------------- */
+@layer components {
+    .btn-primary {
+        @apply px-6 py-3 rounded-lg font-medium text-white transition-all duration-300;
+        background-color: var(--color-primary);
+    }
+    .btn-primary:hover {
+        background-color: var(--color-primary-light);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px rgba(3, 149, 9, 0.2);
+    }
+
+    .btn-secondary {
+        @apply px-6 py-3 rounded-lg font-medium transition-all duration-300;
+        background-color: transparent;
+        color: var(--color-text);
+        border: 1px solid var(--color-border);
+    }
+    .btn-secondary:hover {
+        border-color: var(--color-primary);
+        color: var(--color-primary);
+    }
+
+    .card {
+        @apply rounded-2xl overflow-hidden transition-all duration-300;
+        background-color: var(--color-surface);
+        border: 1px solid var(--color-border);
+    }
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .badge {
+        @apply px-3 py-1 rounded-full text-sm font-medium;
+        background-color: var(--color-primary-lighter);
+        color: var(--color-primary);
+    }
+
+    .hero-gradient {
+        background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    }
+
+    .search-box {
+        @apply rounded-2xl p-6 shadow-lg;
+        background-color: var(--color-bg);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+    [data-theme="dark"] .search-box {
+        background-color: var(--color-surface-elevated);
+    }
+}
